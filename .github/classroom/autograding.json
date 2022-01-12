@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "java android",
+      "setup": "",
+      "run": "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk ./gradlew test",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    }
+  ]
+}

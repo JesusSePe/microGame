@@ -122,7 +122,7 @@ public class animacio extends ApplicationAdapter {
 		TextureRegion currentFrame;
 
 		// Moving
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && posX < Gdx.graphics.getWidth()){
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && posX < Gdx.graphics.getWidth() - 50){
 			currentFrame = walkLeftAnimation.getKeyFrame(stateTime, true);
 			posX += 200 * Gdx.graphics.getDeltaTime();
 
@@ -142,8 +142,7 @@ public class animacio extends ApplicationAdapter {
 			// Idle
 			currentFrame = idleDownAnimation.getKeyFrame(stateTime, true);
 		}
-		spriteBatch.draw(currentFrame, posX, posY);
-
+		spriteBatch.draw(currentFrame, posX, posY, 50, 50);
 
 
 		spriteBatch.end();

@@ -3,12 +3,16 @@ package com.telek.animacio;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.Random;
 
 public class animacio extends ApplicationAdapter {
 
@@ -19,8 +23,11 @@ public class animacio extends ApplicationAdapter {
 	Animation<TextureRegion> idleDownAnimation, idleLeftAnimation, idleUpAnimation, idleRightAnimation, walkDownAnimation, walkLeftAnimation, walkUpAnimation, walkRightAnimation; // Must declare frame type (TextureRegion)
 	Texture walkSheet;
 	SpriteBatch spriteBatch;
-	Texture back;
+	Texture back, rupees;
 	int posY, posX = 0;
+	int rupeeX, rupeeY, rupeeTotal;
+	public BitmapFont font;
+	private Sound rupeeSound;
 
 	// A variable for tracking elapsed time for the animation
 	float stateTime;
@@ -33,6 +40,9 @@ public class animacio extends ApplicationAdapter {
 
 		// Load background
 		back = new Texture(Gdx.files.internal("maze.png"));
+
+		// Load rupee texture
+		rupees = new Texture(Gdx.files.internal("rupee.png"));
 
 		// Use the split utility method to create a 2D array of TextureRegions. This is
 		// possible because this sprite sheet contains frames of equal size and they are
@@ -106,6 +116,17 @@ public class animacio extends ApplicationAdapter {
 		// time to 0
 		spriteBatch = new SpriteBatch();
 		stateTime = 0f;
+
+		// Initialize rupee properties
+		rupeeTotal = 0;
+		rupeeX = new Random().nextInt((Gdx.graphics.getWidth() - 49));
+		rupeeY = new Random().nextInt((Gdx.graphics.getHeight() - 49));
+
+		// Initialize font
+		font = new BitmapFont(); // Default libGDX font, Arial.
+
+		// load the rupee sound effect
+		rupeeSound = Gdx.audio.newSound(Gdx.files.internal("rupee.mp3"));
 	}
 
 	@Override
@@ -119,6 +140,11 @@ public class animacio extends ApplicationAdapter {
 
 		// Draw background
 		spriteBatch.draw(back, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		// Draw rupee
+		spriteBatch.draw(rupees, rupeeX, rupeeY, 20, 30);
+
+
 		TextureRegion currentFrame;
 
 		// Moving
@@ -142,7 +168,20 @@ public class animacio extends ApplicationAdapter {
 			// Idle
 			currentFrame = idleDownAnimation.getKeyFrame(stateTime, true);
 		}
+
+		// Check if we got a rupee
+		if ((posX <= rupeeX && posX + 50 >= rupeeX) && (posY - 50 <= rupeeY && posY + 50 >= rupeeY)){
+			// Rupee + 1 and generate a new onee
+			rupeeTotal += 1;
+			rupeeX = new Random().nextInt((Gdx.graphics.getWidth() - 49));
+			rupeeY = new Random().nextInt((Gdx.graphics.getHeight() - 49));
+
+			// Play rupee sound
+			rupeeSound.play();
+		}
+
 		spriteBatch.draw(currentFrame, posX, posY, 50, 50);
+		font.draw(spriteBatch, "Rupees: " + rupeeTotal, 0, Gdx.graphics.getHeight()-30);
 
 
 		spriteBatch.end();

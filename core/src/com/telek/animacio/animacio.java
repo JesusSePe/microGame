@@ -77,7 +77,7 @@ public class animacio extends ApplicationAdapter {
 		TextureRegion[] walkLeftFrames = new TextureRegion[FRAME_COLS];
 		index = 0;
 		for (int j = 0; j < FRAME_COLS; j++) {
-			walkLeftFrames[index++] = tmp[5][j];
+			walkLeftFrames[index++] = tmp[7][j];
 		}
 
 		TextureRegion[] walkUpFrames = new TextureRegion[FRAME_COLS];
@@ -89,7 +89,7 @@ public class animacio extends ApplicationAdapter {
 		TextureRegion[] walkRightFrames = new TextureRegion[FRAME_COLS];
 		index = 0;
 		for (int j = 0; j < FRAME_COLS; j++) {
-			walkRightFrames[index++] = tmp[7][j];
+			walkRightFrames[index++] = tmp[5][j];
 		}
 
 		// Initialize the Animations with the frame interval and array of frames
@@ -122,19 +122,19 @@ public class animacio extends ApplicationAdapter {
 		TextureRegion currentFrame;
 
 		// Moving
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && posX > Gdx.graphics.getWidth()){
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && posX < Gdx.graphics.getWidth()){
 			currentFrame = walkLeftAnimation.getKeyFrame(stateTime, true);
 			posX += 200 * Gdx.graphics.getDeltaTime();
 
-		} else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && posX < 0){
+		} else if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && posX > 0){
 			currentFrame = walkRightAnimation.getKeyFrame(stateTime, true);
 			posX -= 200 * Gdx.graphics.getDeltaTime();
 
-		} else if(Gdx.input.isKeyPressed(Input.Keys.UP) && posY > Gdx.graphics.getHeight()){
+		} else if(Gdx.input.isKeyPressed(Input.Keys.UP) && posY < Gdx.graphics.getHeight()){
 			currentFrame = walkUpAnimation.getKeyFrame(stateTime, true);
 			posY += 200 * Gdx.graphics.getDeltaTime();
 
-		} else if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && posY < 0){
+		} else if(Gdx.input.isKeyPressed(Input.Keys.DOWN) && posY > 0){
 			currentFrame = walkDownAnimation.getKeyFrame(stateTime, true);
 			posY -= 200 * Gdx.graphics.getDeltaTime();
 
